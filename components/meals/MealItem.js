@@ -1,18 +1,23 @@
 import { useDispatch } from "react-redux";
+import { useRef } from "react";
 
 import { cartActions } from "@/store/Cart-slice";
 
 function MealItem(props) {
   const dispatch = useDispatch();
+  const inputRef = useRef();
 
   function onSubmit(e) {
     e.preventDefault();
+
+    const enteredAmount = inputRef.current.value;
 
     dispatch(
       cartActions.addItemToCard({
         id: props.id,
         name: props.name,
         price: props.price,
+        quantity: +enteredAmount,
       })
     );
   }
@@ -29,6 +34,7 @@ function MealItem(props) {
         <label className="font-bold mr-4">Amount</label>
         <input
           className="border rounded-md w-14 mb-2"
+          ref={inputRef}
           max={5}
           min={1}
           defaultValue={1}
